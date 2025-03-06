@@ -1,7 +1,3 @@
-    /**
- * Main Application
- * Initializes and coordinates the weather app functionality
- */
 
 // Initialize API and UI
 const weatherAPI = new WeatherAPI();
@@ -28,21 +24,21 @@ function saveRecentSearches() {
 
 // Add a city to recent searches
 function addToRecentSearches(city) {
-    // Remove city if it already exists to prevent duplicates
+    
     const cityIndex = recentSearches.indexOf(city);
     if (cityIndex !== -1) {
         recentSearches.splice(cityIndex, 1);
     }
     
-    // Add city to the beginning of the array
+  
     recentSearches.unshift(city);
     
-    // Limit to 5 recent searches
+   
     if (recentSearches.length > 5) {
         recentSearches.pop();
     }
     
-    // Save to localStorage
+   
     saveRecentSearches();
 }
 
@@ -57,17 +53,16 @@ async function fetchWeatherForCity(city) {
     weatherUI.showLoading();
     
     try {
-        // Fetch current weather
+      
         const currentWeatherData = await weatherAPI.getCurrentWeatherByCity(city);
-        
-        // Fetch forecast
+     
         const forecastData = await weatherAPI.getForecastByCity(city);
         
-        // Update UI with weather data
+        
         weatherUI.updateCurrentWeather(currentWeatherData, weatherAPI);
         weatherUI.updateForecast(forecastData, weatherAPI);
         
-        // Add to recent searches
+        
         addToRecentSearches(city);
     } catch (error) {
         console.error('Error fetching weather data:', error);
@@ -83,17 +78,16 @@ async function fetchWeatherForCoords(lat, lon) {
     weatherUI.showLoading();
     
     try {
-        // Fetch current weather
+        
         const currentWeatherData = await weatherAPI.getCurrentWeatherByCoords(lat, lon);
         
-        // Fetch forecast
+      
         const forecastData = await weatherAPI.getForecastByCoords(lat, lon);
         
-        // Update UI with weather data
+       
         weatherUI.updateCurrentWeather(currentWeatherData, weatherAPI);
         weatherUI.updateForecast(forecastData, weatherAPI);
         
-        // Add to recent searches
         addToRecentSearches(currentWeatherData.name);
     } catch (error) {
         console.error('Error fetching weather data:', error);
@@ -114,12 +108,11 @@ function getCurrentLocation() {
     weatherUI.showLoading();
     
     navigator.geolocation.getCurrentPosition(
-        // Success callback
+       
         position => {
             const { latitude, longitude } = position.coords;
             fetchWeatherForCoords(latitude, longitude);
         },
-        // Error callback
         error => {
             console.error('Geolocation error:', error);
             weatherUI.hideLoading();
@@ -151,7 +144,6 @@ function setupEventListeners() {
         fetchWeatherForCity(city);
     });
     
-    // Enter key in search input
     weatherUI.citySearchInput.addEventListener('keypress', event => {
         if (event.key === 'Enter') {
             const city = weatherUI.citySearchInput.value.trim();
@@ -159,7 +151,6 @@ function setupEventListeners() {
         }
     });
     
-    // Current location button click
     weatherUI.currentLocationButton.addEventListener('click', getCurrentLocation);
     
     // Search input focus to show dropdown
@@ -174,10 +165,8 @@ function setupEventListeners() {
         const searchText = weatherUI.citySearchInput.value.trim().toLowerCase();
         
         if (searchText === '') {
-            // Show all recent searches
             weatherUI.displaySearchDropdown(recentSearches);
         } else {
-            // Filter recent searches based on input
             const filteredSearches = recentSearches.filter(city => 
                 city.toLowerCase().includes(searchText)
             );
@@ -186,7 +175,6 @@ function setupEventListeners() {
         }
     });
     
-    // Hide dropdown when clicking outside
     document.addEventListener('click', event => {
         if (!weatherUI.citySearchInput.contains(event.target) && !weatherUI.searchDropdown.contains(event.target)) {
             weatherUI.hideSearchDropdown();
@@ -196,13 +184,10 @@ function setupEventListeners() {
 
 // Initialize the application
 function initApp() {
-    // Load recent searches from localStorage
     loadRecentSearches();
     
-    // Set up event listeners
     setupEventListeners();
     
-    // Check for default city in URL
     const urlParams = new URLSearchParams(window.location.search);
     const cityParam = urlParams.get('city');
     
@@ -212,5 +197,4 @@ function initApp() {
     }
 }
 
-// Initialize the app when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initApp);
