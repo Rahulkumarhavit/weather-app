@@ -1,4 +1,4 @@
-    # Weather Forecast Application
+# Weather Forecast Application
 
 A responsive weather forecast application built with JavaScript, HTML, and Tailwind CSS that allows users to check current weather conditions and 5-day forecasts for locations worldwide.
 
@@ -25,7 +25,7 @@ A responsive weather forecast application built with JavaScript, HTML, and Tailw
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/weather-forecast-app.git
+   git clone https://github.com/Rahulkumarhavit/weather-app
    cd weather-forecast-app
    ```
 
@@ -33,7 +33,7 @@ A responsive weather forecast application built with JavaScript, HTML, and Tailw
    - Create an account at [OpenWeatherMap](https://openweathermap.org/)
    - Generate an API key from your account dashboard
 
-3. Open `assets/js/api.js` and replace `YOUR_API_KEY_HERE` with your actual API key:
+3. Open `assets/js/api.js` and replace `API_KEY` with your actual API key:
    ```javascript
    this.apiKey = 'your-actual-api-key';
    ```
